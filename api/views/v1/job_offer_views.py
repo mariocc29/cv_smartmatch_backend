@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -6,6 +7,7 @@ from api.serializers.job_offer_serializer import JobOfferSerializer
 from common.models.job_offer_model import JobOfferModel
 
 @api_view(['GET', 'POST','PUT', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def job_offer(request, job_offer_id:str = None):
   if job_offer_id is None:
     if request.method == 'GET':
@@ -43,6 +45,7 @@ def job_offer(request, job_offer_id:str = None):
       return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
 def summary(request, job_offer_id:str):
   try:
     job_offer = JobOfferModel.objects.get(id=job_offer_id)

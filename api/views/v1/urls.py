@@ -10,6 +10,7 @@ urlpatterns = [
 
   path('auth/sign_in', authentication_views.sign_in),
   path('auth/login', authentication_views.login),
+  path('auth/refresh_token', authentication_views.refresh_token),
 
 	path('personal_info/', personal_info_views.personal_info),
 	path('personal_info/<str:personal_info_id>/', personal_info_views.personal_info),

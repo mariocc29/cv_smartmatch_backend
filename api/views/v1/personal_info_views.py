@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -6,6 +7,7 @@ from api.serializers.personal_info_serializer import PersonalInfoSerializer
 from common.models.personal_info_model import PersonalInfoModel
 
 @api_view(['GET', 'POST','PUT', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def personal_info(request, personal_info_id:str = None):
   if personal_info_id is None:
     if request.method == 'GET':

@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -8,6 +9,7 @@ from common.models.job_experience_model import JobExperienceModel
 from common.models.personal_info_model import PersonalInfoModel
 
 @api_view(['GET', 'POST','PUT', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
 @validate_personal_info
 def job_experience(request, personal_info, job_experience_id:str = None):
   if job_experience_id is None:
