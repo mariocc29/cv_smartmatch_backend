@@ -12,4 +12,4 @@ class JobExperienceModel(mongoengine.Document):
   start_at = mongoengine.DateField(required=True)
   end_at = mongoengine.DateField()
   tags = mongoengine.ListField(mongoengine.StringField(max_length=255))
-  responsibilities = mongoengine.ListField(mongoengine.StringField(max_length=255))
+  responsibilities = mongoengine.ListField(mongoengine.StringField())
