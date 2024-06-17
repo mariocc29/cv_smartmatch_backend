@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from api.serializers.job_offer_serializer import JobOfferSerializer
+from api.services.handler import SummaryHandler
 from common.models.job_offer_model import JobOfferModel
 
 @api_view(['GET', 'POST','PUT', 'PATCH', 'DELETE'])
@@ -53,4 +54,5 @@ def summary(request, job_offer_id:str):
     return Response({'error': 'Job offer not found'}, status=status.HTTP_404_NOT_FOUND)
   
   if request.method == 'GET':
-    pass
+    summary = SummaryHandler.generate(request.user.id, job_offer)
+    return Response({'summary': summary}, status=status.HTTP_200_OK)
