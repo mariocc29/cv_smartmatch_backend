@@ -92,6 +92,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Rest framework
+# https://django-rest-framework-simplejwt.readthedocs.io/en/latest/
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'app.initializers.authentication.MongoDBJWTAuthentication',
+    )
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

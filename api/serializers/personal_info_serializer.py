@@ -39,16 +39,11 @@ class PersonalInfoSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=20)
     address = AddressSerializer()
     social_networks = SocialNetworkSerializer(many=True, required=False)
-    preferred_lang = LangEnumField()
     languages = serializers.ListField(child=LangEnumField())
     
     def create(self, validated_data):
-        address_data = validated_data.pop('address')
-        social_networks_data = validated_data.pop('social_networks', [])
-        address = Address(**address_data)
-        social_networks = [SocialNetwork(**sn) for sn in social_networks_data]
-        personal_information = PersonalInfoModel(**validated_data, address=address, social_networks=social_networks)
-        # personal_information.account_id = self.context['request'].user
+        personal_information = PersonalInfoModel(**validated_data)
+        personal_information.account_id = self.context['request'].user
         personal_information.save()
         return personal_information
     

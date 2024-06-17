@@ -41,3 +41,13 @@ def job_offer(request, job_offer_id:str = None):
     elif request.method == 'DELETE':
       job_offer.delete()
       return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'PUT'])
+def summary(request, job_offer_id:str):
+  try:
+    job_offer = JobOfferModel.objects.get(id=job_offer_id)
+  except JobOfferModel.DoesNotExist:
+    return Response({'error': 'Job offer not found'}, status=status.HTTP_404_NOT_FOUND)
+  
+  if request.method == 'GET':
+    pass
