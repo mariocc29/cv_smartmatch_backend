@@ -7,12 +7,17 @@ from common.models.personal_info_model import PersonalInfoModel
 
 @api_view(['GET', 'POST','PUT', 'PATCH', 'DELETE'])
 def personal_info(request, personal_info_id:str = None):
-  if request.method == 'POST':
-    serializer = PersonalInfoSerializer(data=request.data, context={'request': request})
-    if serializer.is_valid():
-      serializer.save()
-      return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  if personal_info_id is None:
+    if request.method == 'GET':
+      return Response({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    
+    elif request.method == 'POST':
+      serializer = PersonalInfoSerializer(data=request.data, context={'request': request})
+      if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
   else:
     try:
       personal_info = PersonalInfoModel.objects.get(id=personal_info_id)

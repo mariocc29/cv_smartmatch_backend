@@ -31,6 +31,7 @@ class LangEnumField(serializers.ChoiceField):
             self.fail('invalid_choice', input=data)
 
 class PersonalInfoSerializer(serializers.Serializer):
+    id = serializers.CharField(read_only=True)
     version = serializers.IntegerField(required=False)
     fullname = serializers.CharField(max_length=255)
     bachelor_degree = serializers.CharField(max_length=100)
