@@ -5,7 +5,7 @@ from rest_framework import status
 
 from api.serializers.job_offer_serializer import JobOfferSerializer
 from api.serializers.summary_serializer import SummarySerializer
-from api.services.handler import SummaryHandler
+from api.services.summary.handler import SummaryHandler
 from common.models.job_offer_model import JobOfferModel
 
 @api_view(['GET', 'POST','PUT', 'PATCH', 'DELETE'])

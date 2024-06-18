@@ -1,4 +1,4 @@
-from api.services.process import SummaryProcess
+from api.services.summary.process import SummaryProcess
 from common.models.job_offer_model import JobOfferModel
 from common.services.generative_ai.generative_ai_factory import GenerativeAIFactory
 
