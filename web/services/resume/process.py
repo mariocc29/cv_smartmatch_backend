@@ -1,10 +1,11 @@
 from common.models.job_offer_model import JobOfferModel
-
+from django.utils.translation import gettext as _
 
 class ResumeProcess:
 
-  def __init__(self, job_offer: JobOfferModel):
+  def __init__(self, job_offer: JobOfferModel, lang: str):
     self.job_offer = job_offer
+    self.lang = lang
   
   def format(self):
     self.__build_personal_info()
@@ -14,6 +15,7 @@ class ResumeProcess:
     return self.job_offer
   
   def __build_personal_info(self):
+    self.job_offer['personal_info']['languages'] = [_(f'personal_info.lang.{self.lang}.{lang}') for lang in self.job_offer['personal_info']['languages']]
     pass
 
   def __build_job_experiences(self):

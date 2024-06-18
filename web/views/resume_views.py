@@ -4,6 +4,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from xhtml2pdf import pisa
+from django.utils.translation import activate
 
 from common.models.job_offer_model import JobOfferModel
 from web.services.resume.handler import ResumeHandler
@@ -17,12 +18,15 @@ class ResumePDFView(GenericAPIView):
       # return redirect('error_view_name')
       return Response({'error': 'Job offer not found'}, status=status.HTTP_404_NOT_FOUND)
     
+    lang = request.GET.get('lang', 'en')
+    activate(lang)
+
     response = HttpResponse(content_type='application/pdf')
     # response['Content-Disposition'] = f'attachment; filename="{job_offer['personal_info']['fullname']}.pdf"'
     response['Content-Disposition'] = f'filename="{job_offer['personal_info']['fullname']}.pdf"'
 
     template = get_template('resume.html')
-    html = template.render(ResumeHandler.data(job_offer))
+    html = template.render(ResumeHandler.data(job_offer, lang))
     pisa_status = pisa.CreatePDF(html, dest=response, encoding='utf-8')
 
     if pisa_status.err:
