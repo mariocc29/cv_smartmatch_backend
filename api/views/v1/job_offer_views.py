@@ -50,18 +50,20 @@ def job_offer(request, job_offer_id:str = None):
 @permission_classes([IsAuthenticated])
 def summary(request, job_offer_id:str):
   try:
-    job_offer = JobOfferModel.objects.get(id=job_offer_id)
-  except JobOfferModel.DoesNotExist:
+    if request.method == 'GET':
+      job_offer = JobOfferModel.resume(job_offer_id)
+      summary = SummaryHandler.generate(job_offer)
+      return Response({'summary': summary}, status=status.HTTP_200_OK)
+    
+    elif request.method in ['PATCH', 'PUT']:
+      job_offer = JobOfferModel.objects.get(id=job_offer_id)
+      data = request.data
+      serializer = SummarySerializer(job_offer, data=data, partial=(request.method == 'PATCH'))
+      if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+  except (JobOfferModel.DoesNotExist, StopIteration):
     return Response({'error': 'Job offer not found'}, status=status.HTTP_404_NOT_FOUND)
   
-  if request.method == 'GET':
-    summary = SummaryHandler.generate(request.user.id, job_offer)
-    return Response({'summary': summary}, status=status.HTTP_200_OK)
-  
-  elif request.method in ['PATCH', 'PUT']:
-    data = request.data
-    serializer = SummarySerializer(job_offer, data=data, partial=(request.method == 'PATCH'))
-    if serializer.is_valid():
-      serializer.save()
-      return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

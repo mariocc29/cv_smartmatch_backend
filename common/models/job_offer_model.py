@@ -74,6 +74,9 @@ class JobOfferModel(mongoengine.Document):
         '$project': {
           '_id': False, 
           'summary': True, 
+          'description': True, 
+          'responsibilities': True, 
+          'requirements': True, 
           'personal_info': {
             'fullname': True, 
             'bachelor_degree': True, 

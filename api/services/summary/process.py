@@ -6,26 +6,36 @@ from common.models.personal_info_model import PersonalInfoModel
 
 
 class SummaryProcess:
-  def __init__(self):
+  def __init__(self, job_offer: JobOfferModel):
     self.prompt = self.__base_prompt()
+    self.job_offer = job_offer
   
-  def build_job_offer(self, job_offer: JobOfferModel):
+  def build_job_offer(self):
     
     self.prompt += (
       "Job Offer:\n"
-      f"{job_offer.description}\n"
-      f"Responsibilities:\n{"\n".join(job_offer.responsibilities)}\n"
-      f"Requirements:\n{"\n".join(job_offer.requirements)}\n"
+      f"{self.job_offer['description']}\n"
+      f"Responsibilities:\n{"\n".join(self.job_offer['responsibilities'])}\n"
+      f"Requirements:\n{"\n".join(self.job_offer['requirements'])}\n"
     )
 
     return self
   
-  def build_job_experience(self, account_id: str):
+  def build_total_years_of_experience(self):
+    first_job = self.job_offer['job_experiences'][0]['start_at']
+    last_job = self.job_offer['job_experiences'][-1]['end_at'] if self.job_offer['job_experiences'][-1]['end_at'] else datetime.now()
+
+    diff_days = (last_job - first_job).days
+
+    self.prompt += (
+      f"Total years of experience: {diff_days // 365}.\n"
+    )
+
+    return self
+
+  def build_job_experience(self):
     job_experiences = []
-    jobs = list(PersonalInfoModel.objects.aggregate(self.__job_experience_pipeline(account_id)))
-    total_years = self.__job_years_experience(jobs)
-    
-    for job in jobs:
+    for job in self.job_offer['job_experiences']:
       responsibilities = "\n".join(job['responsibilities'])
       tags = ", ".join(job['tags'])
       
@@ -37,7 +47,6 @@ class SummaryProcess:
     
     self.prompt += (
       "Job experience:\n"
-      f"Total years of experience: {total_years}\n"
       f"{'\n'.join(job_experiences)}"
     )
 
@@ -52,40 +61,3 @@ class SummaryProcess:
       "Only mention the technologies requested in the job offer that relate to the user's background.\n"
     )
     return prompt
-  
-  def __job_years_experience(self, jobs) -> int:
-    first_job = jobs[-1]['start_at']
-    last_job = jobs[0]['end_at'] if jobs[0]['end_at'] else datetime.now()
-
-    diff_days = (last_job - first_job).days
-    return diff_days // 365
-
-  def __job_experience_pipeline(self, account_id: str) -> list:
-    return [
-      {
-        '$match': { 'account_id': account_id }
-      }, {
-        '$lookup': {
-          'from': 'job_experiences', 
-          'localField': '_id', 
-          'foreignField': 'personal_info', 
-          'as': 'job_experiences'
-        }
-      }, {
-        '$unwind': '$job_experiences'
-      }, {
-        '$sort': { 'job_experiences.start_at': -1 }
-      }, {
-        '$replaceRoot': { 'newRoot': '$job_experiences' }
-      }, {
-        '$project': {
-          '_id': False, 
-          'company': True, 
-          'role': True, 
-          'start_at': True, 
-          'end_at': True, 
-          'tags': True, 
-          'responsibilities': True
-        }
-      }
-    ]

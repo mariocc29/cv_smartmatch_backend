@@ -4,9 +4,11 @@ from common.services.generative_ai.generative_ai_factory import GenerativeAIFact
 
 class SummaryHandler:
   @staticmethod
-  def generate(account_id: str, job_offer: JobOfferModel):
-    summary = SummaryProcess()
-    summary.build_job_offer(job_offer).build_job_experience(account_id)
-
+  def generate(job_offer: JobOfferModel):
+    summary = SummaryProcess(job_offer)
+    summary.build_job_offer()\
+      .build_total_years_of_experience()\
+      .build_job_experience()
+    
     repository = GenerativeAIFactory.create()
     return repository.send(summary.prompt)
