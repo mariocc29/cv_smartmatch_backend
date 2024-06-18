@@ -1,10 +1,13 @@
 import mongoengine
 from datetime import datetime
 
+from common.models.account_model import AccountModel
+
 class JobOfferModel(mongoengine.Document):
   meta = { 'collection': 'job_offers' }
 
   version = mongoengine.IntField(default=1)
+  account = mongoengine.ReferenceField(AccountModel)
   company = mongoengine.StringField(required=True, max_length=255)
   description = mongoengine.StringField(required=True)
   responsibilities = mongoengine.ListField(mongoengine.StringField())

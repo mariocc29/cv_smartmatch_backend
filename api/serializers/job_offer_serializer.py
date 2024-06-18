@@ -17,6 +17,7 @@ class JobOfferSerializer(serializers.Serializer):
 
   def create(self, validated_data):
     job_offer = JobOfferModel(**validated_data)
+    job_offer.account = self.context['request'].user
     job_offer.save()
     return job_offer
   

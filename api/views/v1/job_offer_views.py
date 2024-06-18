@@ -18,7 +18,7 @@ def job_offer(request, job_offer_id:str = None):
       return Response(serializer.data)
     
     elif request.method == 'POST':
-      serializer = JobOfferSerializer(data=request.data)
+      serializer = JobOfferSerializer(data=request.data, context={'request': request})
       if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
