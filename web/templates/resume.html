@@ -49,8 +49,8 @@
   </header>
   <main class="align-justify text-medium">
     <pdf:spacer height="20px" />
-    <article>{{ summary }}</article>
-    <article>
+    <div>{{ summary }}</div>
+    <div>
       <pdf:spacer height="20px" />
       <div class="bold">{% trans "resume_template.job_experience" %}:</div>
       {% for job in job_experiences %}
@@ -75,8 +75,8 @@
           </div>
         </div>
       {% endfor %}
-    </article>
-    <article>
+    </div>
+    <div>
       <pdf:spacer height="20px" />
       <div class="bold">{% trans "resume_template.education" %}:</div>
       {% for education in educations %}
@@ -91,7 +91,7 @@
           </table>
         </div>
       {% endfor %}
-    </article>
+    </div>
   </main>
 </body>
 </html>
