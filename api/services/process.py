@@ -48,8 +48,8 @@ class SummaryProcess:
       "You are a recruitment coach."
       "You will be provided with the job offer as well as the user's experience and skills."
       "Your task is to help create an attractive and relevant professional summary that highlights the user's qualities in relation to the job offer."
-      "Provide the the professional summary, without any additional explanations or instructions in plain text."
-      "Mention only the technologies requested in the job offer.\n"
+      "Provide a professional summary in plain text format, without any additional explanations or instructions."
+      "Only mention the technologies requested in the job offer that relate to the user's background.\n"
     )
     return prompt
   
