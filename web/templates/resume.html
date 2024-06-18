@@ -1,0 +1,95 @@
+{% comment %}
+-*- coding: utf-8 -*-
+{% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ personal_info.fullname }}</title>
+  <style>
+    @page { 
+      size: letter portrait; 
+      font-family: Arial, Helvetica, sans-serif; 
+      font-size: 13px;
+      margin: 1cm 2cm;
+    }
+
+    header { text-align: center; font-size: 13px; }
+    header .fullname { font-size: 14px; font-weight: bold; }
+    header .degree { font-size: 12px; font-weight: bold; }
+    header .languages { font-size: 10px; font-weight: bold; color: #4C4C4C }
+    main { font-size: 13px; text-align: justify; }
+    main .bold { font-weight: bold; }
+    main .content table { width: 100%; }
+    main .content table .label { font-size: 12px; color: #4C4C4C }
+    main .content table .period { text-align: right; }
+    main .content table .label, main .content table .tags { font-size: 12px; color: #4C4C4C }
+    
+  </style>
+</head>
+<body>
+  <header>
+      <div class="fullname">{{ personal_info.fullname }}</div>
+      <div class="degree">{{ personal_info.bachelor_degree }}</div>
+      <div>
+          {{ personal_info.email }} |
+          {{ personal_info.phone }} |
+          {{ personal_info.full_address }}
+      </div>
+      <div>
+        {% for social_network in personal_info.social_networks %}
+          <a target="_blank" href="{{ social_network.url }}">{{ social_network.label }}</a>
+        {% endfor %}
+      </div>
+      <div class="languages">
+          [{{ personal_info.languages | join:" - " }}]
+      </div>
+  </header>
+  <main>
+    <article>{{ summary }}</article>
+    <article>
+      <pdf:spacer height="20px" />
+      <div class="bold">Job Experience</div>
+      {% for job in job_experiences %}
+        <pdf:spacer height="10px" />
+        <div class="bold">{{ job.company }}</div>
+        <div class="content">
+          <table>
+            <tr>
+              <td>{{ job.role }}</td>
+              <td class="period">[{{ job.start_at_formatted }} - {{ job.end_at_formatted }}]</td>
+            </tr>
+            <tr>
+              <td class="tags" colspan="2">{{ job.tags | join:", " }}</td>
+            </tr>
+          </table>
+          <div>
+            <ul>
+              {% for responsibility in job.responsibilities %}
+                <li>{{ responsibility }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {% endfor %}
+    </article>
+    <article>
+      <pdf:spacer height="20px" />
+      <div class="bold">Education</div>
+      {% for education in educations %}
+        <pdf:spacer height="10px" />
+        <div class="bold">{{ education.degree }}</div>
+        <div class="content">
+          <table>
+            <tr>
+              <td class="label">{{ education.institute }}</td>
+              <td class="period">[{{ education.start_at }} - {{ education.end_at }}]</td>
+            </tr>
+          </table>
+        </div>
+      {% endfor %}
+    </article>
+  </main>
+</body>
+</html>
