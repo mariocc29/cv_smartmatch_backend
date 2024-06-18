@@ -14,7 +14,7 @@ class JobOfferModel(mongoengine.Document):
   responsibilities = mongoengine.ListField(mongoengine.StringField())
   requirements = mongoengine.ListField(mongoengine.StringField())
   active = mongoengine.BooleanField(default=True)
-  contact = mongoengine.StringField(required=False, max_length=255)
+  contact = mongoengine.StringField(required=False, allow_null=True, max_length=255)
   network = mongoengine.StringField(required=True, max_length=255)
   summary = mongoengine.StringField(required=False, allow_null=True, default=None)
   created_at = mongoengine.DateTimeField(default=datetime.now)

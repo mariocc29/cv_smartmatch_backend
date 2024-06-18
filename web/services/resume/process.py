@@ -15,6 +15,7 @@ class ResumeProcess:
     return self.job_offer
   
   def __build_personal_info(self):
+    self.job_offer['personal_info']['fullname'] = self.job_offer['personal_info']['fullname'].upper()
     self.job_offer['personal_info']['languages'] = [_(f'personal_info.lang.{self.lang}.{lang}') for lang in self.job_offer['personal_info']['languages']]
     pass
 

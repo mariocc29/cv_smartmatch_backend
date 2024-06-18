@@ -32,3 +32,11 @@ msgstr "French"
 #, python-brace-format
 msgid "personal_info.lang.en.es"
 msgstr "Spanish"
+
+#: .\web\templates\resume.html:55
+msgid "resume_template.job_experience"
+msgstr "JOB EXPERIENCE"
+
+#: .\web\templates\resume.html:81
+msgid "resume_template.education"
+msgstr "EDUCATION"

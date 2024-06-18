@@ -10,7 +10,7 @@ class JobOfferSerializer(serializers.Serializer):
   responsibilities = serializers.ListField(child=serializers.CharField())
   requirements = serializers.ListField(child=serializers.CharField())
   active = serializers.BooleanField(required=False)
-  contact = serializers.CharField(required=False, max_length=255)
+  contact = serializers.CharField(required=False, allow_null=True, max_length=255)
   network = serializers.CharField(max_length=255)
   created_at = serializers.DateTimeField(read_only=True)
   updated_at = serializers.DateTimeField(read_only=True)

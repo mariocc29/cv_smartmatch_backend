@@ -2,6 +2,8 @@
 -*- coding: utf-8 -*-
 {% endcomment %}
 
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,46 +13,46 @@
     @page { 
       size: letter portrait; 
       font-family: Arial, Helvetica, sans-serif; 
-      font-size: 13px;
       margin: 1cm 2cm;
     }
 
-    header { text-align: center; font-size: 13px; }
-    header .fullname { font-size: 14px; font-weight: bold; }
-    header .degree { font-size: 12px; font-weight: bold; }
-    header .languages { font-size: 10px; font-weight: bold; color: #4C4C4C }
-    main { font-size: 13px; text-align: justify; }
-    main .bold { font-weight: bold; }
-    main .content table { width: 100%; }
-    main .content table .label { font-size: 12px; color: #4C4C4C }
-    main .content table .period { text-align: right; }
-    main .content table .label, main .content table .tags { font-size: 12px; color: #4C4C4C }
+    .bold { font-weight: bold; }
+    .text-large { font-size: 14px; }
+    .text-medium { font-size: 13px; }
+    .text-small { font-size: 12px; }
+    .text-caption { font-size: 10px; }
+    .color-secondary { color: #4C4C4C }
+    .align-right { text-align: right; }
+    .align-center { text-align: center; }
+    .align-justify { text-align: justify; }
+    table { width: 100%; }
     
   </style>
 </head>
 <body>
-  <header>
-      <div class="fullname">{{ personal_info.fullname }}</div>
-      <div class="degree">{{ personal_info.bachelor_degree }}</div>
-      <div>
+  <header class="align-center">
+      <div class="text-large bold">{{ personal_info.fullname }}</div>
+      <div class="text-small bold">{{ personal_info.bachelor_degree }}</div>
+      <div class="text-small">
           {{ personal_info.email }} |
           {{ personal_info.phone }} |
           {{ personal_info.full_address }}
       </div>
-      <div>
+      <div class="text-small">
         {% for social_network in personal_info.social_networks %}
           <a target="_blank" href="{{ social_network.url }}">{{ social_network.label }}</a>
         {% endfor %}
       </div>
-      <div class="languages">
+      <div class="text-caption color-secondary">
           [{{ personal_info.languages | join:" - " }}]
       </div>
   </header>
-  <main>
+  <main class="align-justify text-medium">
+    <pdf:spacer height="20px" />
     <article>{{ summary }}</article>
     <article>
       <pdf:spacer height="20px" />
-      <div class="bold">Job Experience</div>
+      <div class="bold">{% trans "resume_template.job_experience" %}:</div>
       {% for job in job_experiences %}
         <pdf:spacer height="10px" />
         <div class="bold">{{ job.company }}</div>
@@ -58,10 +60,10 @@
           <table>
             <tr>
               <td>{{ job.role }}</td>
-              <td class="period">[{{ job.start_at_formatted }} - {{ job.end_at_formatted }}]</td>
+              <td class="align-right">[{{ job.start_at_formatted }} - {{ job.end_at_formatted }}]</td>
             </tr>
             <tr>
-              <td class="tags" colspan="2">{{ job.tags | join:", " }}</td>
+              <td class="text-small color-secondary" colspan="2">{{ job.tags | join:", " }}</td>
             </tr>
           </table>
           <div>
@@ -76,15 +78,15 @@
     </article>
     <article>
       <pdf:spacer height="20px" />
-      <div class="bold">Education</div>
+      <div class="bold">{% trans "resume_template.education" %}:</div>
       {% for education in educations %}
         <pdf:spacer height="10px" />
         <div class="bold">{{ education.degree }}</div>
         <div class="content">
           <table>
             <tr>
-              <td class="label">{{ education.institute }}</td>
-              <td class="period">[{{ education.start_at }} - {{ education.end_at }}]</td>
+              <td class="text-small color-secondary">{{ education.institute }}</td>
+              <td class="align-right">[{{ education.start_at }} - {{ education.end_at }}]</td>
             </tr>
           </table>
         </div>

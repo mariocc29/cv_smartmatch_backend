@@ -55,9 +55,10 @@ class SummaryProcess:
   def __base_prompt(self) -> tuple:
     prompt = (
       "You are a recruitment coach."
-      "You will be provided with the job offer as well as the user's experience and skills."
-      "Your task is to help create an attractive and relevant professional summary that highlights the user's qualities in relation to the job offer."
+      "You will be provided with the job offer as well as the user's experience."
+      "Your task is to help create an attractive and relevant professional summary in english that highlights the user's qualities in relation to the job offer."
       "Provide a professional summary in plain text format, without any additional explanations or instructions."
-      "Only mention the technologies requested in the job offer that relate to the user's background.\n"
+      "Only highlight the technologies and skills requested in the job offer that relate to the user's experience."
+      "Ignore any technologies or skills in the user's experience that are not mentioned in the job offer.\n"
     )
     return prompt
