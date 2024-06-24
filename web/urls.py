@@ -1,8 +1,7 @@
 from django.urls import path
 
-from web.views.resume_views import ResumePDFView, ResumeDOCView
+from web.views.document_views import DocumentView
 
 urlpatterns = [
-	path('resume/<str:job_offer_id>.pdf', ResumePDFView.as_view()),
-  path('resume/<str:job_offer_id>.docx', ResumeDOCView.as_view()),
+  path('documents/<str:document_type>/<str:format_type>/<str:job_offer_id>/', DocumentView.as_view())
 ]
