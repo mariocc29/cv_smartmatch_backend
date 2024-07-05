@@ -1,8 +1,9 @@
 from rest_framework import serializers
 
+from api.mixins.job_offer_url_mixin import JobOfferURLMixin
 from common.models.job_offer_model import JobOfferModel
 
-class JobOfferSerializer(serializers.Serializer):
+class JobOfferSerializer(serializers.Serializer, JobOfferURLMixin):
   id = serializers.CharField(read_only=True)
   version = serializers.IntegerField(required=False)
   company = serializers.CharField(max_length=255)
@@ -14,6 +15,7 @@ class JobOfferSerializer(serializers.Serializer):
   network = serializers.CharField(max_length=255)
   created_at = serializers.DateTimeField(read_only=True)
   updated_at = serializers.DateTimeField(read_only=True)
+  url = serializers.SerializerMethodField()
 
   def create(self, validated_data):
     job_offer = JobOfferModel(**validated_data)
