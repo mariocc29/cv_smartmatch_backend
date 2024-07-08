@@ -24,4 +24,5 @@ urlpatterns = [
   path('job_offer/', job_offer_views.job_offer),
   path('job_offer/<str:job_offer_id>/', job_offer_views.job_offer),
   path('job_offer/<str:job_offer_id>/summary/', job_offer_views.summary),
+  path('job_offer/<str:job_offer_id>/cover/', job_offer_views.cover),
 ]

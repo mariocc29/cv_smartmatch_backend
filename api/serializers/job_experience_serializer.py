@@ -6,6 +6,7 @@ class JobExperienceSerializer(serializers.Serializer):
   id = serializers.CharField(read_only=True)
   version = serializers.IntegerField(required=False)
   company = serializers.CharField(max_length=255)
+  description = serializers.CharField()
   role = serializers.CharField(max_length=255)
   start_at = serializers.DateField()
   end_at = serializers.DateField(required=False, allow_null=True)

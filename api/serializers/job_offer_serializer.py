@@ -8,6 +8,7 @@ class JobOfferSerializer(serializers.Serializer, JobOfferURLMixin):
   version = serializers.IntegerField(required=False)
   company = serializers.CharField(max_length=255)
   description = serializers.CharField()
+  position = serializers.CharField()
   responsibilities = serializers.ListField(child=serializers.CharField())
   requirements = serializers.ListField(child=serializers.CharField())
   active = serializers.BooleanField(required=False)

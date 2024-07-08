@@ -11,12 +11,14 @@ class JobOfferModel(mongoengine.Document):
   account = mongoengine.ReferenceField(AccountModel)
   company = mongoengine.StringField(required=True, max_length=255)
   description = mongoengine.StringField(required=True)
+  position = mongoengine.StringField(required=True)
   responsibilities = mongoengine.ListField(mongoengine.StringField())
   requirements = mongoengine.ListField(mongoengine.StringField())
   active = mongoengine.BooleanField(default=True)
   contact = mongoengine.StringField(required=False, allow_null=True, max_length=255)
   network = mongoengine.StringField(required=True, max_length=255)
   summary = mongoengine.StringField(required=False, allow_null=True, default=None)
+  cover = mongoengine.StringField(required=False, allow_null=True, default=None)
   created_at = mongoengine.DateTimeField(default=datetime.now)
   updated_at = mongoengine.DateTimeField(default=datetime.now)
     
@@ -74,7 +76,9 @@ class JobOfferModel(mongoengine.Document):
         '$project': {
           '_id': False, 
           'summary': True, 
+          'company': True, 
           'description': True, 
+          'position': True, 
           'responsibilities': True, 
           'requirements': True, 
           'personal_info': {
@@ -92,7 +96,8 @@ class JobOfferModel(mongoengine.Document):
               'as': 'job_experience', 
               'in': {
                 'company': '$$job_experience.company', 
-                'role': '$$job_experience.role', 
+                'description': '$$job_experience.description',
+                'role': '$$job_experience.role',
                 'start_at': '$$job_experience.start_at', 
                 'start_at_formatted': {
                   '$dateToString': { 'format': '%m/%Y', 'date': '$$job_experience.start_at' }

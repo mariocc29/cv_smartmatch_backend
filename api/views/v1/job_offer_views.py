@@ -3,8 +3,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
+from api.serializers.cover_serializer import CoverSerializer
 from api.serializers.job_offer_serializer import JobOfferSerializer
 from api.serializers.summary_serializer import SummarySerializer
+from api.services.cover.handler import CoverHandler
 from api.services.summary.handler import SummaryHandler
 from common.models.job_offer_model import JobOfferModel
 
@@ -66,4 +68,24 @@ def summary(request, job_offer_id:str):
     
   except (JobOfferModel.DoesNotExist, StopIteration):
     return Response({'error': 'Job offer not found'}, status=status.HTTP_404_NOT_FOUND)
-  
+
+@api_view(['GET', 'PUT', 'PATCH'])
+@permission_classes([IsAuthenticated])
+def cover(request, job_offer_id:str):
+  try:
+    if request.method == 'GET':
+      job_offer = JobOfferModel.resume(job_offer_id)
+      cover = CoverHandler.generate(job_offer)
+      return Response({'cover': cover}, status=status.HTTP_200_OK)
+    
+    elif request.method in ['PATCH', 'PUT']:
+      job_offer = JobOfferModel.objects.get(id=job_offer_id)
+      data = request.data
+      serializer = CoverSerializer(job_offer, data=data, partial=(request.method == 'PATCH'))
+      if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+  except (JobOfferModel.DoesNotExist, StopIteration):
+    return Response({'error': 'Job offer not found'}, status=status.HTTP_404_NOT_FOUND)
