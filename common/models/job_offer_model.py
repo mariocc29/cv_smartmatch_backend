@@ -76,9 +76,12 @@ class JobOfferModel(mongoengine.Document):
         '$project': {
           '_id': False, 
           'summary': True, 
+          'cover': True, 
           'company': True, 
           'description': True, 
           'position': True, 
+          'network': True, 
+          'address': True, 
           'responsibilities': True, 
           'requirements': True, 
           'personal_info': {

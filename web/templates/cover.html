@@ -1,0 +1,78 @@
+{% comment %}
+-*- coding: utf-8 -*-
+{% endcomment %}
+
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cover Letter - {{ personal_info.fullname }}</title>
+  <style>
+    @page { 
+      size: letter portrait; 
+      font-family: Arial, Helvetica, sans-serif; 
+      margin: 1cm 2cm;
+    }
+
+    .bold { font-weight: bold; }
+    .text-large { font-size: 14px; }
+    .text-medium { font-size: 13px; }
+    .text-small { font-size: 12px; }
+    .text-caption { font-size: 10px; }
+    .color-secondary { color: #4C4C4C }
+    .align-right { text-align: right; }
+    .align-center { text-align: center; }
+    .align-justify { text-align: justify; }
+    table { width: 100%; }
+    
+  </style>
+</head>
+<body>
+  <div class="text-medium">{{ company }}</div>
+  <div class="text-medium">To the attention of the Human Resources Department,</div>
+  <div class="text-medium">{{ address }}</div>
+  <pdf:spacer height="40px" />
+  
+  <div class="text-medium">Subject: Application for the position of {{ position }}</div>
+  <div class="text-medium">Enclosure: Curriculum Vitae</div>
+  <pdf:spacer height="80px" />
+  
+  <div class="text-medium">Dear Sir/Madam,</div>
+  <pdf:spacer height="20px" />
+
+  <div class="text-medium align-justify">
+    Following your interest expressed on {{ network }} where you posted an opening for a {{ position }} 
+    I would like to express my keen interest in joining your team and hereby submit my application.
+  </div>
+  <pdf:spacer height="20px" />
+
+  <div class="text-medium align-justify">
+    {% for paragraph in cover %}
+    {{ paragraph }}
+    <pdf:spacer height="20px" />
+    {% endfor %}
+  </div>
+  
+  <div class="text-medium align-justify">
+    I am convinced that a letter cannot fully reveal my skills and personality, and therefore, 
+    I am at your disposal for an interview to further elaborate on my motivation.
+  </div>
+  <pdf:spacer height="20px" />
+  
+  <div class="text-medium align-justify">
+    Please accept, Sir/Madam, the expression of my sincere regards.
+  </div>
+  <pdf:spacer height="20px" />
+  
+  <div class="text-medium align-justify">Sincerely,</div>
+  <pdf:spacer height="20px" />
+
+  <div class="text-medium align-right">{{ personal_info.fullname }}</div>
+  <div class="text-medium align-right">{{ personal_info.full_address }}</div>
+  <div class="text-medium align-right">{{ personal_info.phone }}</div>
+  <div class="text-medium align-right">{{ personal_info.email }}</div>
+  
+</body>
+</html>
