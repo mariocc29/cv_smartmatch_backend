@@ -24,7 +24,7 @@ class SummaryProcess:
   
   def build_total_years_of_experience(self):
     first_job = self.job_offer['job_experiences'][0]['start_at']
-    last_job = self.job_offer['job_experiences'][-1]['end_at'] if self.job_offer['job_experiences'][-1]['end_at'] else datetime.now()
+    last_job = self.job_offer['job_experiences'][-1]['end_at'] if 'end_at' in self.job_offer['job_experiences'][-1] else datetime.now()
 
     diff_days = (last_job - first_job).days
 

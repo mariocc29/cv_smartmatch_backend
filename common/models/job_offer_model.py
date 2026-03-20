@@ -70,7 +70,9 @@ class JobOfferModel(mongoengine.Document):
               ', ', 
               '$personal_info.address.country'
             ]
-          }
+          },
+          'cover': { '$ifNull': ['$cover', ""] },
+          'summary': { '$ifNull': ['$summary', ""] }
         }
       }, {
         '$project': {

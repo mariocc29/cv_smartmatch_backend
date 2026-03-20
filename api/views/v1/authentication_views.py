@@ -24,6 +24,7 @@ def login(request):
     if serializer.is_valid():
       account = serializer.authenticate(serializer.validated_data)
       token = AccessToken.for_user(account)
+      print(token)
       return Response({'token': str(token)}, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   else:

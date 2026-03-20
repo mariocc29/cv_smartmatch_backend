@@ -30,23 +30,15 @@
   </style>
 </head>
 <body>
-  <header class="align-center">
-      <div class="text-large bold">{{ personal_info.fullname }}</div>
-      <div class="text-small bold">{{ personal_info.bachelor_degree }}</div>
-      <div class="text-small">
-          {{ personal_info.email }} |
-          {{ personal_info.phone }} |
-          {{ personal_info.full_address }}
-      </div>
-      <div class="text-small">
-        {% for social_network in personal_info.social_networks %}
-          <a target="_blank" href="{{ social_network.url }}">{{ social_network.label }}</a>
-        {% endfor %}
-      </div>
-      <div class="text-caption color-secondary">
-          [{{ personal_info.languages | join:" - " }}]
-      </div>
-  </header>
+  <div class="align-center text-large bold">{{ personal_info.fullname }}</div>
+  <div class="align-center text-small bold">{{ personal_info.bachelor_degree }}</div>
+  <div class="align-center text-small">{{ personal_info.email }} | {{ personal_info.phone }} | {{ personal_info.full_address }}</div>
+  <div class="align-center text-small">
+    {% for social_network in personal_info.social_networks %}
+      <a target="_blank" href="{{ social_network.url }}">{{ social_network.label }}</a>
+    {% endfor %}
+  </div>
+  <div class="align-center  text-caption color-secondary">[{{ personal_info.languages | join:" - " }}]</div>
   <main class="align-justify text-medium">
     <pdf:spacer height="20px" />
     <div>{{ summary }}</div>
@@ -60,7 +52,7 @@
           <table>
             <tr>
               <td>{{ job.role }}</td>
-              <td class="align-right">[{{ job.start_at_formatted }} - {{ job.end_at_formatted }}]</td>
+              <td class="align-right">[{{ job.start_at_formatted }} - {{ job.end_at_formatted|default:"Present" }}]</td>
             </tr>
             <tr>
               <td class="text-small color-secondary" colspan="2">{{ job.tags | join:", " }}</td>
