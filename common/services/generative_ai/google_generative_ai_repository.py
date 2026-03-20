@@ -6,6 +6,6 @@ from common.services.generative_ai.generative_ai_repository import GenerativeAIR
 class GoogleGenerativeAIRepository(GenerativeAIRepository):
   def send(self, prompt: str) -> str:
     genai.configure(api_key=GENERATIVE_AI_API_KEY)
-    model = genai.GenerativeModel('gemini-1.5-pro')
+    model = genai.GenerativeModel('gemini-3-flash-preview')
     response = model.generate_content(prompt)
     return response.text
